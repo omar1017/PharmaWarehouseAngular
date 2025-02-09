@@ -1,0 +1,90 @@
+<div class="container mt-5">
+  <h2 class="mb-4 text-center">Admin Product Management</h2>
+  <hr class="mb-4" />
+
+  <!-- عرض حالة التحميل -->
+  <div *ngIf="isLoading" class="text-center">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+    <p>Loading products...</p>
+  </div>
+
+  <!-- عرض رسالة الخطأ -->
+  <div *ngIf="errorMessage" class="alert alert-danger alert-dismissible">
+    {{ errorMessage }}
+    <button type="button" class="btn-close" aria-label="Close" (click)="errorMessage = null"></button>
+  </div>
+
+  <!-- جدول المنتجات -->
+  <form [formGroup]="productForm" *ngIf="!isLoading">
+    <table class="table table-striped table-bordered">
+      <thead>
+        <tr class="bg-dark text-white">
+          <th>Name</th>
+          <th>Image</th>
+          <th>Company Name</th>
+          <th>Description</th>
+          <th>Price</th>
+          <th>Supplier</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody formArrayName="products">
+        <ng-container *ngIf="products.controls.length > 0; else noProducts">
+          <tr *ngFor="let product of products.controls; let i = index" [formGroupName]="i">
+            <td>
+              <input type="text" class="form-control" formControlName="name" placeholder="Enter product name" />
+            </td>
+            
+            <td>
+              <div class="d-flex align-items-center">
+                <input type="file" class="form-control me-2" (change)="onImageChange($event, i)" />
+                <img [src]="product.get('image')?.value" style="width: 60px; height: 40px;" alt="" class="img-thumbnail me-2">
+              </div>
+            </td>
+            <td>
+              <input type="text" class="form-control" formControlName="companyName" placeholder="Enter company name" />
+            </td>
+            <td>
+              <input type="text" class="form-control" formControlName="description" placeholder="Enter description" />
+            </td>
+            <td>
+              <input type="number" class="form-control" formControlName="price" placeholder="Enter price" />
+            </td>
+            <td>
+              <input type="text" class="form-control" formControlName="supplier" placeholder="Enter supplier" />
+            </td>
+            <td>
+              <div class="d-flex gap-2">
+                <!-- زر Save -->
+                <button *ngIf="!product.get('isSaved')?.value" type="button" class="btn btn-primary btn-sm" (click)="saveProduct(i)">
+                  Save
+                </button>
+
+                <!-- زر Update -->
+                <button  type="button" class="btn btn-warning btn-sm" (click)="updateProduct(i)">
+                  Update
+                </button>
+
+                <!-- زر Delete -->
+                <button type="button" class="btn btn-danger btn-sm" (click)="deleteRow(i)">Delete</button>
+              </div>
+            </td>
+          </tr>
+        </ng-container>
+      </tbody>
+      <ng-template #noProducts>
+        <tr>
+          <td colspan="7" class="text-center text-muted">
+            No products available. Please add new products.
+          </td>
+        </tr>
+      </ng-template>
+    </table>
+
+    <div class="d-flex justify-content-between">
+      <button type="button" class="btn btn-success" (click)="addRow()">Add Product</button>
+    </div>
+  </form>
+</div>

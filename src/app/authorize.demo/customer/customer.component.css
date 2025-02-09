@@ -1,0 +1,18 @@
+.container {
+    max-width: 2000px;
+  }
+  
+  input.form-control {
+    width: 100%;
+    padding: 8px;
+    box-sizing: border-box;
+  }
+  
+  .table {
+    margin-top: 20px;
+  }
+  
+  .d-flex .btn {
+    min-width: 100px;
+  }
+  

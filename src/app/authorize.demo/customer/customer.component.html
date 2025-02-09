@@ -1,0 +1,55 @@
+<div class="container mt-5">
+  <h2 class="mb-4">Customers List</h2>
+  <table class="table table-bordered table-sm" style="line-height: 1.2;">
+    <thead class="thead-dark">
+      <tr>
+        <th>Name</th>
+        <th>Pharma</th>
+        <th>Address</th>
+        <th>Total Carts</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let row of dataSource; let i = index">
+        <td class="p-1">
+          <span class="form-control-plaintext">{{ row.name.value }}</span>
+        </td>
+        <td class="p-1">
+          <span class="form-control-plaintext">{{ row.companyName.value }}</span>
+        </td>
+        <td class="p-1">
+          <span class="form-control-plaintext">{{ row.price.value }}</span>
+        </td>
+        <td class="p-1">
+          <!-- Stylish Link -->
+          <a
+            class="fw-bold btn btn-link text-truncate"
+            routerLink="/dashboard"
+            [title]="'View Carts for ' + row.supplier.value"
+          >
+            {{ row.supplier.value }}
+          </a>
+        </td>
+        <td class="p-1">
+          <button class="btn btn-danger btn-sm" (click)="deleteRow(i)">
+            Delete
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Buttons Row -->
+  <div class="row mb-3 align-items-center">
+    <!-- Add Button on the Left -->
+    <div class="col-md-6">
+      <button class="btn btn-success" (click)="addRow()">Add Row</button>
+    </div>
+    <!-- Save and Cancel Buttons on the Right -->
+    <div class="col-md-6 text-end">
+      <button class="btn btn-primary me-2" (click)="saveChanges()">Save</button>
+      <button class="btn btn-secondary" (click)="cancelChanges()">Cancel</button>
+    </div>
+  </div>
+</div>
